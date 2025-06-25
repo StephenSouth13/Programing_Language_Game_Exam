@@ -1,4 +1,4 @@
-Ề THI GIỮA KỲ – LẬP TRÌNH C# & FIREBASE
+dỀ THI GIỮA KỲ – LẬP TRÌNH C# & FIREBASE
 Thời gian: 120 phút 
 Nền tảng: Firebase Realtime Database + ứng dụng Console C# 
  Mục tiêu: Thực hành thao tác dữ liệu qua Firebase API 
