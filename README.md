@@ -1,81 +1,250 @@
-🚀 Đồ Án Giữa Kỳ: Quản Lý Người Chơi Game Với C# & Firebase 🎮
-Chào mừng bạn đến với dự án Console Application "Quản Lý Người Chơi Game" đầy thú vị, được phát triển bằng C# và tích hợp sức mạnh của Firebase Realtime Database! 🚀 Đây là bài tập giữa kỳ được thiết kế đặc biệt để củng cố kỹ năng của bạn trong việc tương tác với Firebase API, từ các thao tác CRUD cơ bản cho đến việc xử lý dữ liệu nâng cao như lọc, sắp xếp để tạo ra những bảng xếp hạng hoành tráng.
+dỀ THI GIỮA KỲ – LẬP TRÌNH C# & FIREBASE
+Thời gian: 120 phút 
+Nền tảng: Firebase Realtime Database + ứng dụng Console C# 
+ Mục tiêu: Thực hành thao tác dữ liệu qua Firebase API 
+1 – Quản lý danh sách Player (6P)
+Mục tiêu: Kiểm tra khả năng thao tác CRUD với Firebase bằng C#.
+Yêu cầu:
+1. Tạo chương trình C# nhập thông tin người chơi gồm:
+o PlayerID (chuỗi)
+o Name (chuỗi)
+o Gold (int)
+o Score (int)
+2. Thực hiện các chức năng:
+o Thêm 10 player mới vào /Players (2P)
+o Hiển thị toàn bộ danh sách player (2P)
+o Cập nhật Gold hoặc Score (1P)
+o Xóa player theo PlayerID (1P)
+3. Dữ liệu được lưu và truy xuất từ Firebase Realtime Database.
+4. Dữ liệu cần đa dạng (giá trị khác nhau để sắp xếp được)
+2 -Bảng xếp hạng Gold và lưu trữ kết quả (2P)
+Mục tiêu: Kiểm tra khả năng lọc và sắp xếp dữ liệu.
+Yêu cầu:
+1. Viết chương trình hiển thị Top 5 người chơi có Gold cao nhất.
+2. Dữ liệu lấy từ Firebase và hiển thị theo thứ tự giảm dần.
+3. Ghi danh sách này vào một node khác trong Firebase có tên: TopGold thêm vào chỉ số 
+index là thứ hạng trong TopGold.
+3 - Bảng xếp hạng Score và lưu trữ kết quả (2P)
+Mục tiêu: Vận dụng thao tác đọc/ghi dữ liệu và logic sắp xếp.
+Yêu cầu:
+1. Lấy toàn bộ danh sách player từ Firebase.
+2. Sắp xếp theo Score giảm dần.
+3. Chỉ lấy 5 player có điểm cao nhất và ghi danh sách này vào một node khác trong 
+Firebase có tên: TopScore thêm vào chỉ số index là thứ hạng trong TopScore.
 
-Bạn đã sẵn sàng để khám phá chưa? ✨
+Cách làm:
+using Firebase.Database;
+using Firebase.Database.Query;
+using FirebaseAdmin;
+using Google.Apis.Auth.OAuth2;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-🎯 Mục Tiêu Chính Của Dự Án
-Firebase API Mastery: 🌐 Nắm vững cách thức tương tác mượt mà với Firebase Realtime Database từ ứng dụng C# của bạn.
-Quản Lý Player Toàn Diện: 🛠️ Triển khai đầy đủ các chức năng Create, Read, Update, Delete (CRUD) cho đối tượng Player, đảm bảo dữ liệu luôn được kiểm soát.
-Sức Mạnh Của Dữ Liệu: 📊 Học cách lọc và sắp xếp dữ liệu hiệu quả bằng Firebase Queries để xây dựng các bảng xếp hạng đỉnh cao dựa trên Gold và Score.
-Lưu Trữ Thông Minh: 💾 Ghi lại kết quả bảng xếp hạng trở lại Firebase với cấu trúc rõ ràng, dễ dàng truy xuất sau này.
-✨ Điểm Nổi Bật Của Dự Án
-Dự án này được chia thành ba phần chính, mỗi phần tập trung vào việc phát triển và kiểm tra một khía cạnh quan trọng của kỹ năng lập trình:
-
-1. Quản Lý Danh Sách Player: Trái Tim Của Game 💖
-Phần này là nền tảng, giúp bạn làm quen với các thao tác cơ bản nhưng cực kỳ quan trọng trên Firebase.
-
-Thông Tin Player Chi Tiết: Bạn sẽ tạo chương trình cho phép nhập các thông tin sau cho mỗi người chơi:
-PlayerID (chuỗi định danh duy nhất)
-Name (tên người chơi)
-Gold (số vàng sở hữu)
-Score (điểm số đạt được)
-Bộ Chức Năng CRUD Đầy Đủ:
-➕ Thêm mới: Dễ dàng thêm 10 người chơi mới vào node /Players trên Firebase.
-👀 Hiển thị: Xem toàn bộ danh sách người chơi hiện có chỉ với một cú nhấp chuột (hoặc dòng lệnh!).
-✏️ Cập nhật: Thay đổi giá trị Gold hoặc Score của bất kỳ người chơi nào.
-❌ Xóa: Gỡ bỏ một người chơi khỏi cơ sở dữ liệu dựa trên PlayerID.
-💡 Mẹo: Hãy nhập dữ liệu Gold và Score thật đa dạng để các bảng xếp hạng sau này thêm phần kịch tính nhé!
-
-2. Bảng Xếp Hạng Gold: Ai Là Triệu Phú? 💰🏆
-Kiểm tra khả năng của bạn trong việc sắp xếp và hiển thị dữ liệu một cách trực quan.
-
-Top 5 Triệu Phú Vàng: Chương trình sẽ hiển thị Top 5 người chơi có số Gold cao nhất.
-Hiển Thị Giảm Dần: Dữ liệu sẽ được lấy từ Firebase và trình bày một cách gọn gàng theo thứ tự Gold giảm dần.
-3. Bảng Xếp Hạng Score và Lưu Trữ Kết Quả: Vinh Danh Người Dẫn Đầu! 🌟💾
-Phần này thử thách bạn với sự kết hợp của việc đọc, ghi và xử lý logic dữ liệu nâng cao.
-
-Thu Thập Dữ Liệu: Lấy toàn bộ danh sách người chơi từ Firebase.
-Sắp Xếp Đỉnh Cao: Sắp xếp người chơi theo Score giảm dần một cách chính xác.
-Chọn Lọc 5 Ngôi Sao: Chỉ chọn Top 5 người chơi có Score cao nhất.
-Lưu Trữ Lịch Sử: Ghi danh sách Top 5 này vào một node mới trên Firebase có tên /TopScore, mỗi người chơi sẽ kèm theo chỉ số index tương ứng với thứ hạng của họ.
-🛠️ Công Nghệ & Công Cụ
-Ngôn ngữ lập trình: 💙 C#
-Nền tảng: .NET Core Console Application
-Cơ sở dữ liệu: 🔥 Firebase Realtime Database
-Thư viện/SDK: FirebaseDatabase.net
-🚀 Hướng Dẫn Thiết Lập & Chạy Dự Án
-Làm theo các bước đơn giản sau để dự án hoạt động trên máy của bạn:
-
-Clone Repository:
-Bash
-
-git clone https://github.com/StephenSouth13/Programing_Language_Game_Exam.git
-cd Programing_Language_Game_Exam
-Cấu hình Firebase Của Bạn:
-Tạo Dự Án Firebase: Ghé thăm Firebase Console và tạo một dự án mới tinh.
-Kích Hoạt Realtime Database: Trong dự án Firebase của bạn, vào tab Realtime Database và tạo cơ sở dữ liệu mới (nếu bạn chưa có).
-Tải Khóa Bí Mật: Đi tới Project settings (biểu tượng bánh răng cưa) > Service accounts > và nhấp vào Generate new private key để tải xuống file JSON chứa khóa bí mật của bạn.
-Đặt File JSON: Đặt file JSON này vào thư mục dự án C# của bạn (ví dụ: trong thư mục ConsoleApp1). Đảm bảo đường dẫn tới file được cấu hình chính xác trong mã nguồn của bạn.
-Thiết Lập Rules (Quan trọng cho Dev): Để cho phép ứng dụng đọc/ghi dữ liệu trong quá trình phát triển, hãy cấu hình Rules cho Realtime Database như sau (lưu ý: KHÔNG sử dụng cấu hình này cho môi trường production):
-JSON
-
+namespace MidtermFirebase
 {
-  "rules": {
-    ".read": true,
-    ".write": true
-  }
+    public class Player
+    {
+        public string PlayerID { get; set; }
+        public string Name { get; set; }
+        public int Gold { get; set; }
+        public int Score { get; set; }
+    }
+
+    internal class Program
+    {
+        private static string firebaseDB_URL = "https://your-database-url.firebaseio.com/";
+        private static FirebaseClient firebase;
+
+        static async Task Main(string[] args)
+        {
+            Console.OutputEncoding = Encoding.UTF8;
+
+            FirebaseApp.Create(new AppOptions()
+            {
+                Credential = GoogleCredential.FromFile("serviceAccountKey.json")
+            });
+
+            firebase = new FirebaseClient(firebaseDB_URL);
+
+            while (true)
+            {
+                Console.WriteLine("\n=== MENU ===");
+                Console.WriteLine("1. Thêm 10 Player mới");
+                Console.WriteLine("2. Hiển thị toàn bộ danh sách Player");
+                Console.WriteLine("3. Cập nhật Gold hoặc Score theo PlayerID");
+                Console.WriteLine("4. Xoá Player theo PlayerID");
+                Console.WriteLine("5. Hiển thị Top 5 Gold cao nhất");
+                Console.WriteLine("6. Ghi Top 5 Score cao nhất vào node TopScore");
+                Console.WriteLine("0. Thoát");
+
+                var choice = Console.ReadLine();
+                switch (choice)
+                {
+                    case "1": await AddPlayers(); break;
+                    case "2": await ShowPlayers(); break;
+                    case "3": await UpdatePlayer(); break;
+                    case "4": await DeletePlayer(); break;
+                    case "5": await ShowTopGold(); break;
+                    case "6": await SaveTopScore(); break;
+                    case "0": return;
+                    default: Console.WriteLine("Lựa chọn không hợp lệ."); break;
+                }
+            }
+        }
+
+        // 1. Thêm 10 player mới vào /Players
+        public static async Task AddPlayers()
+        {
+            var rand = new Random();
+            for (int i = 1; i <= 10; i++)
+            {
+                var player = new Player
+                {
+                    PlayerID = $"P{i:D3}",
+                    Name = $"Player_{i}",
+                    Gold = rand.Next(50, 1000),
+                    Score = rand.Next(100, 10000)
+                };
+
+                await firebase
+                    .Child("Players")
+                    .Child(player.PlayerID)
+                    .PutAsync(player);
+
+                Console.WriteLine($"✔ Đã thêm: {player.PlayerID} - {player.Name}");
+            }
+        }
+
+        // 2. Hiển thị toàn bộ danh sách player
+        public static async Task ShowPlayers()
+        {
+            var all = await firebase.Child("Players").OnceAsync<Player>();
+            Console.WriteLine("\n📄 Danh sách toàn bộ Player:");
+            foreach (var item in all)
+            {
+                var p = item.Object;
+                Console.WriteLine($"ID: {p.PlayerID} | Name: {p.Name} | Gold: {p.Gold} | Score: {p.Score}");
+            }
+        }
+
+        // 3. Cập nhật Gold hoặc Score
+        public static async Task UpdatePlayer()
+        {
+            Console.Write("Nhập PlayerID cần cập nhật: ");
+            var id = Console.ReadLine();
+
+            var player = await firebase.Child("Players").Child(id).OnceSingleAsync<Player>();
+            if (player == null)
+            {
+                Console.WriteLine("❌ Không tìm thấy Player.");
+                return;
+            }
+
+            Console.WriteLine("Cập nhật:\n1. Gold\n2. Score");
+            var option = Console.ReadLine();
+
+            if (option == "1")
+            {
+                Console.Write("Nhập Gold mới: ");
+                if (int.TryParse(Console.ReadLine(), out int newGold))
+                {
+                    player.Gold = newGold;
+                }
+            }
+            else if (option == "2")
+            {
+                Console.Write("Nhập Score mới: ");
+                if (int.TryParse(Console.ReadLine(), out int newScore))
+                {
+                    player.Score = newScore;
+                }
+            }
+            else
+            {
+                Console.WriteLine("❌ Tuỳ chọn không hợp lệ.");
+                return;
+            }
+
+            await firebase.Child("Players").Child(id).PutAsync(player);
+            Console.WriteLine("✔ Đã cập nhật thành công.");
+        }
+
+        // 4. Xoá player theo PlayerID
+        public static async Task DeletePlayer()
+        {
+            Console.Write("Nhập PlayerID cần xoá: ");
+            var id = Console.ReadLine();
+
+            await firebase.Child("Players").Child(id).DeleteAsync();
+            Console.WriteLine("🗑️ Đã xoá player.");
+        }
+
+        // 2 - Bảng xếp hạng Gold (hiển thị top 5 theo Gold)
+        public static async Task ShowTopGold()
+        {
+            var all = await firebase.Child("Players").OnceAsync<Player>();
+            var topGold = all
+                .Select(p => p.Object)
+                .OrderByDescending(p => p.Gold)
+                .Take(5)
+                .ToList();
+
+            Console.WriteLine("\n🏆 Top 5 Player có Gold cao nhất:");
+            foreach (var p in topGold)
+            {
+                Console.WriteLine($"{p.PlayerID} | {p.Name} | Gold: {p.Gold} | Score: {p.Score}");
+            }
+        }
+
+        // 3 - Lưu Top 5 Score vào node TopScore (có chỉ số thứ hạng)
+        public static async Task SaveTopScore()
+        {
+            var all = await firebase.Child("Players").OnceAsync<Player>();
+            var topScore = all
+                .Select(p => p.Object)
+                .OrderByDescending(p => p.Score)
+                .Take(5)
+                .ToList();
+
+            await firebase.Child("TopScore").DeleteAsync(); // xoá cũ nếu có
+
+            int index = 1;
+            foreach (var p in topScore)
+            {
+                await firebase
+                    .Child("TopScore")
+                    .Child(index.ToString())
+                    .PutAsync(new
+                    {
+                        Rank = index,
+                        p.PlayerID,
+                        p.Name,
+                        p.Gold,
+                        p.Score
+                    });
+
+                index++;
+            }
+
+            Console.WriteLine("✔ Đã lưu Top 5 Score vào node TopScore.");
+        }
+    }
 }
-Cài Đặt Dependencies:
-Mở dự án trong Visual Studio hoặc VS Code.
-Đảm bảo bạn đã cài đặt package NuGet FirebaseDatabase.net. Bạn có thể chạy lệnh sau trong Terminal (đảm bảo bạn đang ở trong thư mục ConsoleApp1):
-Bash
+✅ Hướng dẫn sử dụng nhanh
+Tạo project C# Console mới
 
-dotnet add package FirebaseDatabase.net
-Chạy Ứng Dụng:
-Trong thư mục ConsoleApp1 của dự án, mở Terminal và chạy lệnh:
-Bash
+Cài thư viện bằng NuGet:
 
-dotnet run
-Thế là xong! Ứng dụng Console của bạn đã sẵn sàng hoạt động.
-👨‍💻 Tác Giả
-✨ Được thực hiện bởi StephenSouth13 ✨
+mathematica
+Copy
+Edit
+Install-Package FirebaseAdmin
+Install-Package FirebaseDatabase.net
+Thêm file serviceAccountKey.json từ Firebase → đặt trong thư mục dự án.
+
+Thay đổi firebaseDB_URL bằng URL của bạn (định dạng: https://<project-id>.firebaseio.com/)
+
+Chạy chương trình, thực hiện theo menu.
